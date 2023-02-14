@@ -20,24 +20,43 @@ export default function Home() {
       setLoading(true)
 
       // hit the model endpoint
+      // const response = await axios.post(
+      //   `/api/model`,
+      //   {
+      //     city: city
+      //   },
+      //   {
+      //     headers: {
+      //       "accept": "application/json",
+      //       "content-type": "application/json",
+      //     },
+      //   }
+      // );
+
+      // const data = response.data
+      // console.log(process.env.NEXT_APP_MODEL_API_KEY)
       const response = await axios.post(
-        `/api/model`,
+        `https://api.writesonic.com/v2/business/content/chatsonic?engine=premium`,
         {
-          city: city
+          enable_google_results: true,
+          enable_memory: false,
+          input_text:
+            `Give me atleast 10 bucket list items with description and links for ${city}`,
         },
         {
           headers: {
             "accept": "application/json",
             "content-type": "application/json",
+                      "X-API-KEY": "68e9a39a-870f-40a0-84aa-5f44679f29a5",
           },
         }
       );
-
-      const data = response.data
+  
+          const data = response.data
       console.log(data)
       setData(data)
 
-      let bucketList = data?.data?.message.split('\n')
+      let bucketList = data?.message.split('\n')
       console.log(bucketList)
 
       let removeEmpty = bucketList.filter((item) => item !== '')
